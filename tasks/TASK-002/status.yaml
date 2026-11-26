@@ -1,11 +1,11 @@
 task: TASK-002
-status: READY_FOR_PO
-assigned_to: PRODUCT_OWNER
+status: READY_FOR_ARCHITECT
+assigned_to: ARCHITECT
 attempt: 1
-updated_by: PRODUCT_BA
+updated_by: PRODUCT_OWNER
 routing_mode: SELF_ROUTING
-routing_reason: The Product Owner needs to supply the two Business requirements before the Architect handoff.
-result: BLOCKED
+routing_reason: 'Decision: The Product Owner approved seven-day owner recovery and nonempty descriptions up to 200 characters.'
+result: DONE
 issue:
-  type: PRODUCT_DECISION_NEEDED
-  description: S1-B and S1-C are confirmed in scope. Their Business wording or an approved brief is needed to define acceptance criteria.
+  type:
+  description:

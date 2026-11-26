@@ -1,1 +1,2 @@
 {"timestamp":"2026-11-26T15:52:49Z","task":"TASK-002","agent":"PRODUCT_BA","event":"BLOCKED","to":"PRODUCT_OWNER","type":"PRODUCT_DECISION_NEEDED","attempt":1,"reason":"S1-B and S1-C are confirmed in scope. Their Business wording or an approved brief is needed to define acceptance criteria."}
+{"timestamp":"2026-11-26T15:54:54Z","task":"TASK-002","agent":"PRODUCT_OWNER","event":"REQUIREMENTS_READY","to":"ARCHITECT","attempt":1,"reason":"Decision: Owners can list and restore their removed repositories for seven days, and description edits require 1 to 200 characters."}
