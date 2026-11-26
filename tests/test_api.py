@@ -73,6 +73,65 @@ class ApiTests(unittest.TestCase):
         self.assertEqual(status, 200)
         self.assertNotEqual(rescanned["scanned_at"], analysis["scanned_at"])
 
+    def test_register_then_list_detail_and_analysis(self):
+        body = {"name": "new-service", "url": "https://github.com/example-org/new-service", "description": "New"}
+        status, repo = self.call("POST", "/repositories", user="bob", body=body)
+        self.assertEqual(status, 201)
+        self.assertEqual(repo["owner"], "bob")
+        self.assertEqual(repo["description"], "New")
+        self.assertEqual(repo["registered_at"], repo["last_scanned_at"])
+
+        status, repos = self.call("GET", "/repositories", user="bob")
+        self.assertIn(repo["id"], [r["id"] for r in repos])
+        self.assertEqual(self.call("GET", f"/repositories/{repo['id']}", user="bob"), (200, repo))
+
+        status, analysis = self.call("GET", f"/repositories/{repo['id']}/analysis", user="bob")
+        self.assertEqual(status, 200)
+        self.assertEqual(analysis["repository_id"], repo["id"])
+        self.assertEqual(analysis["scanned_at"], repo["last_scanned_at"])
+
+    def test_registered_repository_is_hidden_from_other_users(self):
+        _, repo = self.call("POST", "/repositories", user="bob", body={"name": "x", "url": "https://example.com/x"})
+        _, alice_repos = self.call("GET", "/repositories", user="alice")
+        self.assertNotIn(repo["id"], [r["id"] for r in alice_repos])
+        self.assertEqual(self.call("GET", f"/repositories/{repo['id']}", user="alice")[0], 403)
+        self.assertEqual(self.call("GET", f"/repositories/{repo['id']}/analysis", user="alice")[0], 403)
+
+    def test_register_description_defaults_to_empty(self):
+        status, repo = self.call("POST", "/repositories", body={"name": "x", "url": "https://example.com/x"})
+        self.assertEqual(status, 201)
+        self.assertEqual(repo["description"], "")
+        self.assertEqual(repo["owner"], "alice")
+
+    def test_register_rejects_invalid_bodies(self):
+        bad_bodies = [
+            None,
+            ["name", "url"],
+            {"url": "https://example.com/x"},
+            {"name": "x"},
+            {"name": "   ", "url": "https://example.com/x"},
+            {"name": "x", "url": ""},
+            {"name": 5, "url": "https://example.com/x"},
+            {"name": "x", "url": "https://example.com/x", "description": 7},
+        ]
+        for body in bad_bodies:
+            with self.subTest(body=body):
+                status, _ = self.call("POST", "/repositories", body=body)
+                self.assertEqual(status, 400)
+        self.assertEqual(len(self.call("GET", "/repositories")[1]), 2)
+
+    def test_register_rejects_malformed_json(self):
+        request = urllib.request.Request(self.base + "/repositories", data=b"{not json", method="POST")
+        with self.assertRaises(urllib.error.HTTPError) as caught:
+            OPENER.open(request, timeout=5)
+        self.assertEqual(caught.exception.code, 400)
+        self.assertEqual(len(self.server.store.repositories), 4)
+
+    def test_register_unknown_user(self):
+        status, _ = self.call("POST", "/repositories", user="mallory", body={"name": "x", "url": "https://example.com/x"})
+        self.assertEqual(status, 401)
+        self.assertEqual(len(self.server.store.repositories), 4)
+
     def test_unknown_endpoint(self):
         status, _ = self.call("GET", "/nope")
         self.assertEqual(status, 404)

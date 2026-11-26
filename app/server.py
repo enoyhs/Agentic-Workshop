@@ -58,6 +58,11 @@ def list_repositories(req):
     return 200, service.list_repositories(req.store, req.user)
 
 
+@route("POST", "/repositories")
+def register_repository(req):
+    return 201, service.register_repository(req.store, req.user, req.body)
+
+
 @route("GET", r"/repositories/(\d+)")
 def get_repository(req, repository_id):
     return 200, service.get_repository(req.store, req.user, int(repository_id))
