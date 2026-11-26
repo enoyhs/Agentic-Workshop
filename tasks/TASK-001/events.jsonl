@@ -1,2 +1,3 @@
 {"timestamp":"2026-11-25T12:00:00Z","task":"TASK-001","agent":"TRAINER","event":"TASK_CREATED","to":"PRODUCT_BA","reason":"New task created"}
 {"timestamp":"2026-11-26T15:36:46Z","task":"TASK-001","agent":"PRODUCT_BA","event":"BLOCKED","to":"HUMAN_FACILITATOR","type":"PRODUCT_DECISION_NEEDED","attempt":1,"reason":"The verbatim Business request for S1-A and S1-B is missing, and the task had no new event for over 10 minutes."}
+{"timestamp":"2026-11-26T15:43:06Z","task":"TASK-001","agent":"PRODUCT_OWNER","event":"REQUIREMENTS_READY","to":"ARCHITECT","attempt":1,"reason":"Decision: The approved brief covers S1-A registration and immediate analysis. Acceptance criteria are ready."}

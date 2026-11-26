@@ -1,11 +1,11 @@
 task: TASK-001
-status: ESCALATED
-assigned_to: HUMAN_FACILITATOR
+status: READY_FOR_ARCHITECT
+assigned_to: ARCHITECT
 attempt: 1
-updated_by: PRODUCT_BA
+updated_by: PRODUCT_OWNER
 routing_mode: SELF_ROUTING
-routing_reason: The task has had no new event for over 10 minutes and needs the original Business request.
-result: BLOCKED
+routing_reason: 'Decision: The Product Owner approved S1-A registration and immediate analysis as the brief, and the acceptance criteria are ready.'
+result: DONE
 issue:
-  type: PRODUCT_DECISION_NEEDED
-  description: Both S1-A and S1-B are in scope. The task file contains only their IDs, so the facilitator needs to provide the verbatim Business request for both cards.
+  type:
+  description:
