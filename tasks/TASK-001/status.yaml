@@ -1,11 +1,11 @@
 task: TASK-001
-status: READY_FOR_QA
-assigned_to: QA
+status: READY_FOR_PO
+assigned_to: PRODUCT_OWNER
 attempt: 1
-updated_by: DEVELOPER
+updated_by: QA
 routing_mode: SELF_ROUTING
-routing_reason: S1-A registration is implemented and all tests pass, ready for QA.
-result: DONE
+routing_reason: Independent QA checks passed all acceptance criteria; ready for Product Owner acceptance.
+result: PASSED
 issue:
   type:
   description:
